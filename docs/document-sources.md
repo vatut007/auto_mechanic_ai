@@ -5,6 +5,15 @@
 
 Легенда: `[ ]` — не начато, `[x]` — лежит в `data/inbox/`.
 
+Проверенные официальные источники (2026-11-26):
+
+- StarLine: портал документации https://help.starline.ru — книга S96v2/E96v2 GSM:
+  https://help.starline.ru/books/starline-s96v2-e96v2-gsm (установка, эксплуатация, карты подключений);
+  рядом StarLine VAG-01 (обходчик автозапуска 1.4 TSI).
+- Škoda: официальный портал руководств https://kodium.skoda-auto.com (Rapid → год → РЭ, PDF, RU).
+- Škoda/VAG ремонтные документы: erWin https://erwin.skoda-auto.de (платно, поштучно, дёшево).
+- Lada: архив моделей https://www.lada.ru/cars/eop → Kalina → руководство.
+
 ## Skoda Rapid (1.6 MPI / 1.4 TSI)
 
 - [ ] Руководство по эксплуатации — сайт Škoda (или VAG-зеркала), русский
