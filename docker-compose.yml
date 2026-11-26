@@ -1,0 +1,15 @@
+# Stage 0: chat UI (Open WebUI) with built-in RAG ("Knowledge") — feel for the format.
+# From Stage 1 this UI connects to our FastAPI core as an OpenAI-compatible provider.
+# Host port 3000: 8080 is taken by another project on this machine (ADR-004).
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: amai-open-webui
+    ports:
+      - "3000:8080"
+    volumes:
+      - open-webui-data:/app/backend/data
+    restart: unless-stopped
+
+volumes:
+  open-webui-data:
