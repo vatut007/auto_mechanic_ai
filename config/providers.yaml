@@ -1,0 +1,54 @@
+# LLM provider registry — Stage 0 draft, wired into the core in Stage 1 (implementation plan, Stage 1).
+#
+# Idea: ONE OpenAI-compatible provider class reads this file:
+#   base_url + api_key_env + models with capability flags (vision / tools / json_mode / context).
+# Switching provider = editing this file, zero code changes.
+#
+# Model aliases listed here become the model list exposed to Open WebUI in Stage 1.
+# Context sizes are conservative/approximate — verify against provider docs when wiring Stage 1.
+
+providers:
+  deepseek:                        # PRIMARY (ADR-001)
+    base_url: https://api.deepseek.com/v1
+    api_key_env: DEEPSEEK_API_KEY
+    models:
+      deepseek-chat:
+        context_tokens: 65536
+        capabilities: { vision: false, tools: true, json_mode: true }
+      deepseek-reasoner:
+        context_tokens: 65536
+        capabilities: { vision: false, tools: false, json_mode: false }
+
+  glm:                             # FALLBACK 1
+    base_url: https://open.bigmodel.cn/api/paas/v4
+    api_key_env: GLM_API_KEY
+    models:
+      glm-4.6:
+        context_tokens: 131072
+        capabilities: { vision: false, tools: true, json_mode: true }
+
+  qwen:                            # FALLBACK 2 — strongest candidate for Chinese manuals later (Stage 7)
+    base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+    api_key_env: DASHSCOPE_API_KEY
+    models:
+      qwen-max:
+        context_tokens: 32768
+        capabilities: { vision: false, tools: true, json_mode: true }
+
+  ollama:                          # LOCAL, free; also the embeddings host (ADR-002)
+    base_url: http://127.0.0.1:11434/v1
+    api_key_env: null              # no key needed locally
+    models:
+      qwen2.5:7b:
+        context_tokens: 32768
+        capabilities: { vision: false, tools: true, json_mode: true }
+
+# Embeddings — local, multilingual (RU + CN), Stage 3 will use it for the vector index.
+embeddings:
+  provider: ollama
+  model: bge-m3
+  dimensions: 1024
+
+# Open questions that affect this registry (implementation plan, "Открытые вопросы"):
+#   - RU payment for DeepSeek/Alibaba API (direct or via reseller) — may reorder the primary.
+#   - Which keys actually exist (GLM/Qwen/Kimi) — prune providers that have no key on file.
