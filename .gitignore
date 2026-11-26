@@ -1,0 +1,25 @@
+# Secrets — never in git
+.env
+
+# Data: PDF manuals, indexes, cases, equipment — outside git, backed up separately
+data/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local SQLite files (manifest/DB lives under data/, this is just a safety net)
+*.db
+*.sqlite3
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
