@@ -1,6 +1,6 @@
 """Smoke tests for the Stage-1 core: registry, agent prompt, endpoint basics.
 
-Run: .venv/bin/python -m pytest tests/ -q
+Run: uv run pytest tests/ -q
 No provider calls, no network — only local logic.
 """
 from __future__ import annotations

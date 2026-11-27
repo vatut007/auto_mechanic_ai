@@ -32,10 +32,12 @@ docker compose up -d      # Open WebUI → http://localhost:3000
 
 ### Ядро (Этап 1)
 
+Тулза Python — [uv](https://docs.astral.sh/uv/): `.venv` и зависимости создаёт `uv sync`,
+любые команды — через `uv run` (см. бриф §8 и правило 6 в плане).
+
 ```bash
-python3 -m venv .venv
-.venv/bin/pip install -e .
-.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+uv sync                                            # создать .venv + uv.lock (обновляет)
+uv run uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
 - `http://localhost:8000/healthz` — состояние реестра и ключей
@@ -43,8 +45,9 @@ python3 -m venv .venv
   Base URL `http://host.docker.internal:8000/v1`, любой ключ, Auth Type: Bearer
 - Модели-алиасы провайдеров появятся в списке моделей; смена провайдера = правка
   [config/providers.yaml](config/providers.yaml), ноль кода
-- QA-прогон: `.venv/bin/python scripts/qa_run.py --model deepseek-chat`
+- QA-прогон: `uv run python scripts/qa_run.py --model deepseek-chat`
   (отчёт ляжет в `data/qa_results/`)
+- Тесты: `uv run pytest tests/ -q`
 
 Телефон в том же Wi-Fi: `http://<ip-машины>:3000`.
 Встроенный RAG «Знания» Open WebUI — потрогать формат на паре PDF из `data/inbox/` (загрузка через UI).

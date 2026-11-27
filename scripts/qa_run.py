@@ -2,8 +2,8 @@
 """QA runner v0 — drives the core API with the reference question set.
 
 Usage:
-    .venv/bin/python scripts/qa_run.py --model deepseek-chat
-    .venv/bin/python scripts/qa_run.py --model glm-5.4 --base-url http://127.0.0.1:8000
+    uv run python scripts/qa_run.py --model deepseek-chat
+    uv run python scripts/qa_run.py --model glm-5.4 --base-url http://127.0.0.1:8000
 
 Writes a markdown report to data/qa_results/ and prints the table.
 Exit code 1 if pass rate is below --min-pass (default 0.8).

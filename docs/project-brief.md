@@ -91,6 +91,8 @@
 
 ## 8. Техстек (черновой)
 
+- Окружение: **uv** + виртуальное окружение `.venv`. Зависимости — в `pyproject.toml`,
+  `uv sync` / `uv run`; `uv.lock` в git, `.venv` — вне git.
 - Python: httpx/requests (выгрузка), PyMuPDF (`find_tables()`, `get_images()`, рендер страниц 300–400 dpi),
   pdfplumber/Camelot для сложных таблиц; OCR — только для сканов без текстового слоя.
 - Эмбеддинги: текст — bge-m3 / multilingual-e5; изображения — SigLIP / jina-clip.
