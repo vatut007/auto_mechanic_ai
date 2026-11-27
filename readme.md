@@ -23,12 +23,28 @@ data/      — PDF/индексы/кейсы — ВНЕ git, бэкапится 
   equipment/ — каталог оборудования сервиса
 ```
 
-## Быстрый старт (Этап 0)
+## Быстрый старт
 
 ```bash
 cp .env.example .env      # и вписать ключ провайдера
 docker compose up -d      # Open WebUI → http://localhost:3000
 ```
+
+### Ядро (Этап 1)
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -e .
+.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+
+- `http://localhost:8000/healthz` — состояние реестра и ключей
+- Open WebUI → Admin Panel → Settings → Connections → OpenAI API → «+»:
+  Base URL `http://host.docker.internal:8000/v1`, любой ключ, Auth Type: Bearer
+- Модели-алиасы провайдеров появятся в списке моделей; смена провайдера = правка
+  [config/providers.yaml](config/providers.yaml), ноль кода
+- QA-прогон: `.venv/bin/python scripts/qa_run.py --model deepseek-chat`
+  (отчёт ляжет в `data/qa_results/`)
 
 Телефон в том же Wi-Fi: `http://<ip-машины>:3000`.
 Встроенный RAG «Знания» Open WebUI — потрогать формат на паре PDF из `data/inbox/` (загрузка через UI).

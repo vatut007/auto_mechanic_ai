@@ -35,3 +35,18 @@
   GUI-среда; :3000 свободен.
 - **Решение:** маппинг `3000:8080` в [docker-compose.yml](../docker-compose.yml).
 - **Последствия:** телефон в том же Wi-Fi открывает `http://<ip-машины>:3000`.
+
+## ADR-005. Ядро: один OpenAI-совместимый транспорт, алиасы = id моделей (Этап 1)
+
+- **Контекст:** нужен свой бэкенд, в который Open WebUI подключается как к OpenAI-провайдеру;
+  провайдер должен переключаться конфигом, без кода.
+- **Решение:** один класс `OpenAICompatProvider` (base_url + ключ из `.env` + модель);
+  реестр — [config/providers.yaml](../config/providers.yaml); публичные модели — алиасы
+  (ключи `models`), уникальность проверяется на старте. Ядро слушает `:8000`;
+  WebUI ходит на `http://host.docker.internal:8000/v1` (extra_hosts + host-gateway).
+  GLM Coding Plan (z.ai) — запасной провайдер с оговоркой: по ToS план предназначен
+  для кодинговых инструментов, не для чата — держим как тестовый/запасной (ADR-001).
+- **Последствия:** SSE-стрим релеится как есть (`stream_options: include_usage` для лога
+  токенов); лог токенов/стоимости — SQLite `data/usage.db`; стоимость считается, когда
+  заполнят `prices` в реестре. QA-набор v0 — [scripts/qa_questions.yaml](../scripts/qa_questions.yaml),
+  прогон — [scripts/qa_run.py](../scripts/qa_run.py).

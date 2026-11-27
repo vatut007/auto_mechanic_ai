@@ -1,11 +1,10 @@
-# LLM provider registry — Stage 0 draft, wired into the core in Stage 1 (implementation plan, Stage 1).
-#
-# Idea: ONE OpenAI-compatible provider class reads this file:
+# LLM provider registry — one OpenAI-compatible provider class reads this file:
 #   base_url + api_key_env + models with capability flags (vision / tools / json_mode / context).
 # Switching provider = editing this file, zero code changes.
 #
-# Model aliases listed here become the model list exposed to Open WebUI in Stage 1.
-# Context sizes are conservative/approximate — verify against provider docs when wiring Stage 1.
+# Model aliases (the keys under `models`) are the public model ids our core exposes
+# to Open WebUI. They must be unique across providers (startup validates this).
+# Context sizes marked null are unverified — fill them in as they become known.
 
 providers:
   deepseek:                        # PRIMARY (ADR-001)
@@ -19,15 +18,23 @@ providers:
         context_tokens: 65536
         capabilities: { vision: false, tools: false, json_mode: false }
 
-  glm:                             # FALLBACK 1
-    base_url: https://open.bigmodel.cn/api/paas/v4
-    api_key_env: GLM_API_KEY
+  zai:                             # FALLBACK 1 — GLM Coding Plan (user-confirmed working, 2026-11-26)
+    base_url: https://api.z.ai/api/coding/paas/v4
+    api_key_env: ZAI_CODING_API_KEY
+    # NOTE: per z.ai ToS the coding plan is limited to supported coding tools;
+    # Open WebUI is not on that list. Keep as fallback/testing, not the primary path.
     models:
-      glm-4.6:
-        context_tokens: 131072
+      glm-5.4:
+        context_tokens: null       # verify
+        capabilities: { vision: false, tools: true, json_mode: true }
+      glm-5.3:
+        context_tokens: null       # verify
+        capabilities: { vision: false, tools: true, json_mode: true }
+      glm-5.3-flash:
+        context_tokens: null       # verify
         capabilities: { vision: false, tools: true, json_mode: true }
 
-  qwen:                            # FALLBACK 2 — strongest candidate for Chinese manuals later (Stage 7)
+  qwen:                            # FALLBACK 2 — strongest for Chinese manuals later (Stage 7)
     base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
     api_key_env: DASHSCOPE_API_KEY
     models:
@@ -35,20 +42,23 @@ providers:
         context_tokens: 32768
         capabilities: { vision: false, tools: true, json_mode: true }
 
-  ollama:                          # LOCAL, free; also the embeddings host (ADR-002)
+  ollama:                          # LOCAL, free; no key; also the embeddings host (ADR-002)
     base_url: http://127.0.0.1:11434/v1
-    api_key_env: null              # no key needed locally
+    api_key_env: null
     models:
       qwen2.5:7b:
         context_tokens: 32768
         capabilities: { vision: false, tools: true, json_mode: true }
 
-# Embeddings — local, multilingual (RU + CN), Stage 3 will use it for the vector index.
+# Embeddings — local, multilingual (RU + CN), Stage 3 uses it for the vector index.
 embeddings:
   provider: ollama
   model: bge-m3
   dimensions: 1024
 
-# Open questions that affect this registry (implementation plan, "Открытые вопросы"):
-#   - RU payment for DeepSeek/Alibaba API (direct or via reseller) — may reorder the primary.
-#   - Which keys actually exist (GLM/Qwen/Kimi) — prune providers that have no key on file.
+# Optional per-1M-token prices (USD) for the cost log; null = tokens logged, cost not computed.
+# Fill in and verify against the provider pricing page before relying on the numbers.
+prices: {}
+
+# Open questions (implementation plan): RU payment for DeepSeek/Alibaba API;
+# which keys actually exist — prune providers that have no key on file.
