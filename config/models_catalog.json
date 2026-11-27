@@ -1,0 +1,59 @@
+{
+  "_comment": "Model catalog — the single source of names and aliases for request routing and pipeline classification (brief §3 routing layer). Extend deliberately: every value becomes a search filter.",
+  "doc_types": {
+    "эксплуатация": ["эксплуатац", "ekspl", "eksploatac", "owner", "руководство", "рэ-"],
+    "ремонт": ["ремонт", "remont", "repair", "грм", "двигател"],
+    "схемы": ["схем", "shemy", "wiring", "электрика"],
+    "то": ["то-", "-то", "service", "obsluzh", "maintenance", "reglament", "регламент"],
+    "каталог": ["каталог", "katalog", "catalog", "parts", "etas"],
+    "бюллетень": ["бюллетен", "bulletin", "tsb"],
+    "установка": ["установ", "ustanov", "install", "montage", "монтаж"]
+  },
+  "brands": [
+    {
+      "slug": "skoda",
+      "title": "Škoda",
+      "aliases": ["skoda", "шкода"],
+      "models": [
+        { "slug": "rapid", "title": "Rapid", "aliases": ["rapid", "рапид", "nh"] }
+      ]
+    },
+    {
+      "slug": "volkswagen",
+      "title": "Volkswagen",
+      "aliases": ["vw", "volkswagen", "фольксваген"],
+      "models": [
+        { "slug": "polo-sedan", "title": "Polo седан", "aliases": ["polo", "поло"] }
+      ]
+    },
+    {
+      "slug": "lada",
+      "title": "Lada",
+      "aliases": ["lada", "ваз", "vaz"],
+      "models": [
+        { "slug": "kalina", "title": "Kalina", "aliases": ["kalina", "калина", "2194", "1118"] }
+      ]
+    },
+    {
+      "slug": "starline",
+      "title": "StarLine",
+      "aliases": ["starline", "старлайн"],
+      "models": [
+        { "slug": "s96-v2", "title": "S96 v2", "aliases": ["s96v2", "s96-v2", "s96v2"] }
+      ]
+    },
+    {
+      "slug": "changan",
+      "title": "Changan",
+      "aliases": ["changan", "чанган", "чанган"],
+      "models": [
+        { "slug": "cs95", "title": "CS95", "aliases": ["cs95"] },
+        { "slug": "cs75-plus", "title": "CS75 Plus", "aliases": ["cs75plus", "cs75-plus", "cs75"] },
+        { "slug": "cs55-plus", "title": "CS55 Plus", "aliases": ["cs55plus", "cs55-plus", "cs55"] },
+        { "slug": "uni-k", "title": "UNI-K", "aliases": ["unik", "uni-k", "uni-k-idd"] },
+        { "slug": "uni-v", "title": "UNI-V", "aliases": ["univ", "uni-v"] },
+        { "slug": "uni-s", "title": "UNI-S", "aliases": ["unis", "uni-s"] }
+      ]
+    }
+  ]
+}
